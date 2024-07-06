@@ -1,1 +1,7 @@
 ML_Project.egg-info/
+notebooks/.ipynb_checkpoints
+notebooks/.jupyter
+notebooks/data/.ipynb_checkpoints
+src/__pycache__
+notebooks/Artifacts
+

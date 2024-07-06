@@ -1,8 +1,0 @@
-Metadata-Version: 2.1
-Name: ML-Project
-Version: 1.0.1
-Author: Rithish S
-Author-email: rithish.satish@gmail.com
-Requires: pandas
-Requires: numpy
-Requires: seaborn
