@@ -5,3 +5,5 @@ notebooks/data/.ipynb_checkpoints
 src/__pycache__
 notebooks/Artifacts
 logs
+src/components/__pycache__
+src/components/.ipynb_checkpoints
