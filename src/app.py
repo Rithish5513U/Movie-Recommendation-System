@@ -4,6 +4,12 @@ import sys
 import os
 import requests
 import time
+from nltk.stem import PorterStemmer
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+pt = PorterStemmer()
+cv=CountVectorizer(max_features=5000, stop_words='english')
 
 MOVIE_LIST_URL = "https://drive.google.com/uc?export=download&id=1uBgqLmgibehSLWi6vNJ7Ydm8bo-4ZLo9"
 SIMILARITY_URL = "https://www.dropbox.com/scl/fi/d55bf7gj87wka9mr16ln0/similarity.pkl?rlkey=alu41tgjd89xhc0n8iic15l6j&st=r5f883im&dl=1"
@@ -29,21 +35,27 @@ def load_data():
     except Exception as e:
         print("Error loading data from local files. Attempting to download from cloud.")
 
+def stemming(text):
+    l=[]
+    for i in text.split():
+        l.append(pt.stem(i))
+    return " ".join(l)
+
 def download_from_cloud():
     try:
         # Download movies_list.pkl
+        print("Initiated download")
         with requests.get(f"{MOVIE_LIST_URL}") as response1:
             response1.raise_for_status()
             st.session_state.movies = pk.loads(response1.content)
+            print("Movies downloaded")
+            st.session_state.movies['tag'] = st.session_state.movies['tag'].apply(stemming)
+            vector = cv.fit_transform(st.session_state.movies['tag']).toarray()
+            st.session_state.similarity = cosine_similarity(vector)
+            print("Similarity downloaded")
             with open(LOCAL_MOVIES_PATH, 'wb') as file1:
                 file1.write(response1.content)
         
-        # Download similarity.pkl
-        with requests.get(f"{SIMILARITY_URL}") as response2:
-            response2.raise_for_status()
-            st.session_state.similarity = pk.loads(response2.content)
-            with open(LOCAL_SIMILARITY_PATH, 'wb') as file2:
-                file2.write(response2.content)
         
         print("Downloaded data successfully from cloud storage.")
     
