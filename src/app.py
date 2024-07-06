@@ -69,7 +69,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.header("Movie Recommendation System")
+st.header("Movie Recommendation System\n(Content Based)")
 selected_movie = st.selectbox(
     'Type the movie name',
     movie_list
