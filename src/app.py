@@ -34,12 +34,14 @@ def download_from_cloud():
         # Download movies_list.pkl
         with requests.get(f"{MOVIE_LIST_URL}") as response:
             response.raise_for_status()
+            st.session_state.movies = pk.loads(response.content)
             with open(LOCAL_MOVIES_PATH, 'wb') as file:
                 file.write(response.content)
         
         # Download similarity.pkl
         with requests.get(f"{SIMILARITY_URL}/similarity.pkl") as response:
             response.raise_for_status()
+            st.session_state.similarity = pk.loads(response.content)
             with open(LOCAL_SIMILARITY_PATH, 'wb') as file:
                 file.write(response.content)
         
