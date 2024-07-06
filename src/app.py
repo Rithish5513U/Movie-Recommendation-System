@@ -7,21 +7,49 @@ from src.utils import Recommendation
 from src.exception import CustomException
 import time
 
+MOVIE_LIST_URL = "https://drive.google.com/uc?export=download&id=1uBgqLmgibehSLWi6vNJ7Ydm8bo-4ZLo9"
+SIMILARITY_URL = "https://drive.google.com/uc?export=download&id=1jx_6DNDDKqW3V8yZPB5MIl4f3Auscf1B"
+LOCAL_MOVIES_PATH = 'Artifacts/movie_list.pkl'
+LOCAL_SIMILARITY_PATH = 'Artifacts/similarity.pkl'
 
 def load_data():
-    movies_path = 'Artifacts/movie_list.pkl'
-    similarity_path = 'Artifacts/similarity.pkl'
-    
     try:
-        with open(movies_path, 'rb') as file:
+        # Check if local files exist
+        if not os.path.exists(LOCAL_MOVIES_PATH) or not os.path.exists(LOCAL_SIMILARITY_PATH):
+            print("Local files not found. Attempting to download from cloud.")
+            download_from_cloud()
+        
+        # Load data from local files
+        with open(LOCAL_MOVIES_PATH, 'rb') as file:
             st.session_state.movies = pk.load(file)
-        with open(similarity_path, 'rb') as file:
+        with open(LOCAL_SIMILARITY_PATH, 'rb') as file:
             st.session_state.similarity = pk.load(file)
+        
         st.session_state.data_loaded = True
-        print("Data loaded successfully.")
-    except Exception as e:
-        raise CustomException(e, sys)
+        print("Data loaded successfully from local files.")
     
+    except Exception as e:
+        raise CustomException(f"Error loading data: {e}", sys)
+
+def download_from_cloud():
+    try:
+        # Download movies_list.pkl
+        with requests.get(f"{MOVIE_LIST_URL}") as response:
+            response.raise_for_status()
+            with open(LOCAL_MOVIES_PATH, 'wb') as file:
+                file.write(response.content)
+        
+        # Download similarity.pkl
+        with requests.get(f"{SIMILARITY_URL}/similarity.pkl") as response:
+            response.raise_for_status()
+            with open(LOCAL_SIMILARITY_PATH, 'wb') as file:
+                file.write(response.content)
+        
+        print("Downloaded data successfully from cloud storage.")
+    
+    except requests.exceptions.RequestException as e:
+        raise CustomException(f"Error downloading data from cloud: {e}", sys)
+
 if 'data_loaded' not in st.session_state:
     load_data()
 
