@@ -1,12 +1,10 @@
 from setuptools import find_packages, setup
 
 def get_requirements(file):
-    requirements=[]
+    requirements = []
     with open(file) as f:
-        requirements=f.read().splitlines()
-        requirements=requirements[:-1]
+        requirements = f.read().splitlines()
         return requirements
-
 
 setup(
     name="ML Project",
@@ -14,6 +12,5 @@ setup(
     author="Rithish S",
     author_email="rithish.satish@gmail.com",
     packages=find_packages(),
-    requires=get_requirements('requirements.txt')
+    install_requires=get_requirements('requirements.txt')
 )
-

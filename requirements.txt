@@ -4,4 +4,3 @@ seaborn
 streamlit
 nltk
 scikit-learn
--e .
