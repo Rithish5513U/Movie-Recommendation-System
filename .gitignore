@@ -4,4 +4,4 @@ notebooks/.jupyter
 notebooks/data/.ipynb_checkpoints
 src/__pycache__
 notebooks/Artifacts
-
+logs
