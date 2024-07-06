@@ -1,52 +1,65 @@
 # Movie Recommendation System
 
-This is a web-based movie recommendation system built using Streamlit. The application recommends movies based on the selected movie by the overview of the movie and content-based and displays the posters of the recommended movies.
+This project implements a movie recommendation system using Streamlit and cloud storage for data persistence. The system is content-based, using cosine similarity on movie tags to recommend similar movies.
 
 ## Features
 
-- **Movie Recommendation**: Get movie recommendations based on a selected movie.
-- **Poster Display**: Display posters of the recommended movies.
+- **Content-Based Recommendation**: Recommends movies based on similarity in movie tags.
+- **Dynamic Poster Display**: Displays movie posters for recommended movies.
+- **Data Persistence**: Utilizes cloud storage (Google Drive and Dropbox) for storing large data files.
+- **Streamlit Interface**: Provides an interactive interface for users to select a movie and view recommendations.
 
-## Installation
+## Setup
 
-1. **Clone the repository**:
+1. **Installation**
+   - Clone the repository:
+     ```
+     git clone https://github.com/Rithish5513U/Movie-Recommendation-System.git
+     cd <repository_name>
+     ```
+   - Install dependencies:
+     ```
+     pip install -r requirements.txt
+     ```
 
-    ```bash
-    git clone https://github.com/Rithish5513U/Movie-Recommendation-System.git
-    cd Movie-Recommendation-System
-    ```
+2. **Running the Application**
+   - Start the Streamlit application:
+     ```
+     streamlit run app.py
+     ```
+   - Open your browser and go to `http://localhost:8501` to view the application.
 
-2. **Install the required packages**:
+3. **Usage**
+   - Select a movie from the dropdown menu.
+   - Click on the "Show Recommendation" button to display recommended movies and their posters.
 
-    ```bash
-    pip install -r requirements.txt
-    ```
+## Data Handling
 
-3. **Run the utils.py**:
+- **Movies Data**: Initially downloaded from Google Drive and stored locally as `movie_list.pkl`.
+- **Similarity Data**: Downloaded from Dropbox and stored locally as `similarity.pkl`.
 
-    ```bash
-    python -m src/utils.py
-    ```
-It will create a new folder Artifacts in which the models are exported as .pkl files which contains movie list with tags and similarity matrix of the movies.
+### Handling Data Download
 
-4. **Run the Application**:
+- The system checks for local data files (`movie_list.pkl` and `similarity.pkl`).
+- If not found locally, it downloads them from cloud storage.
+- Handles errors and retries during download using requests and custom exception handling.
 
-    ```bash
-    python -m src/app.py
-    ```
-Ensure running utils.py and removing last two lines from it and run src/app.py to ensure smooth running of the app. The app will recommend movies based on the genres, overview of the movie and much more
+## Credits
 
-## Usage
+- **Data Sources**: 
+  - Movies data: [Google Drive](https://drive.google.com/uc?export=download&id=1uBgqLmgibehSLWi6vNJ7Ydm8bo-4ZLo9)
+  - Similarity data: [Dropbox](https://www.dropbox.com/scl/fi/d55bf7gj87wka9mr16ln0/similarity.pkl?rlkey=alu41tgjd89xhc0n8iic15l6j&st=r5f883im&dl=1)
+- **Libraries**:
+  - Streamlit
+  - Pandas
+  - Requests
+  - NLTK
+  - Scikit-learn
+  - Pickle
 
-1. **Load the Application**:
-    - Open your web browser and go to `http://localhost:8501` (or the URL provided by Streamlit).
+## Troubleshooting
 
-2. **Select a Movie**:
-    - Use the dropdown menu to select a movie.
-
-3. **Show Recommendations**:
-    - Click the 'Show Recommendation' button to get movie recommendations.
-    - The recommended movie posters will be displayed.
+- **Downloading Large Files**: If encountering issues with downloading large files from cloud storage platforms like Google Drive or Dropbox, ensure the file sharing settings allow public access.
 
 ## Project Structure
 
@@ -64,15 +77,6 @@ Ensure running utils.py and removing last two lines from it and run src/app.py t
   - `similarity.pkl`: Pickle file containing the similarity matrix.
 - `requirements.txt`: List of required packages.
 - `setup.py`: Used to initiate the setup for the project.
-
-## Dependencies
-
-- Streamlit
-- Pandas
-- Requests
-- NLTK
-- Scikit-learn
-- Pickle
 
 ## Contributing
 
