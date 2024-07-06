@@ -3,8 +3,6 @@ import pickle as pk
 import sys
 import os
 import requests
-from src.utils import Recommendation
-from src.exception import CustomException
 import time
 
 MOVIE_LIST_URL = "https://drive.google.com/uc?export=download&id=1uBgqLmgibehSLWi6vNJ7Ydm8bo-4ZLo9"
@@ -29,7 +27,7 @@ def load_data():
         print("Data loaded successfully from local files.")
     
     except Exception as e:
-        raise CustomException(f"Error loading data: {e}", sys)
+        print("Error loading data from local files. Attempting to download from cloud.")
 
 def download_from_cloud():
     try:
@@ -48,7 +46,8 @@ def download_from_cloud():
         print("Downloaded data successfully from cloud storage.")
     
     except requests.exceptions.RequestException as e:
-        raise CustomException(f"Error downloading data from cloud: {e}", sys)
+        print("Error downloading data from cloud storage.")
+
 
 if 'data_loaded' not in st.session_state:
     load_data()
@@ -77,6 +76,19 @@ def get_poster(movieid, retries=3, delay=1, backoff=2):
                 continue
     return posters
 
+def recommend(movie, similarity, df):
+    try:
+        index = df[df['title']==movie].index[0]
+        distances = sorted(list(enumerate(similarity[index])), reverse=True, key=lambda x:x[1])
+        movie_name = []
+        movie_id = []
+        for i in distances[1:6]:
+            movie_name.append(df.iloc[i[0]].title)
+            movie_id.append(df.iloc[i[0]].id)
+        return movie_id, movie_name
+    except Exception as e:
+        print("Error recommending movie")
+
 st.markdown(
     """
     <style>
@@ -103,10 +115,8 @@ selected_movie = st.selectbox(
     movie_list
 )
 
-obj = Recommendation()
-
 if st.button('Show Recommendation'):
-    movie_id, movie_name = obj.recommend(selected_movie, st.session_state.similarity, st.session_state.movies)
+    movie_id, movie_name = recommend(selected_movie, st.session_state.similarity, st.session_state.movies)
     movie_poster = get_poster(movie_id)
     cols = st.columns(5)
     for i, col in enumerate(cols):
