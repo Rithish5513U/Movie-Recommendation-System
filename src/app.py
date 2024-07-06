@@ -6,7 +6,7 @@ import requests
 import time
 
 MOVIE_LIST_URL = "https://drive.google.com/uc?export=download&id=1uBgqLmgibehSLWi6vNJ7Ydm8bo-4ZLo9"
-SIMILARITY_URL = "https://www.dropbox.com/s/d55bf7gj87wka9mr16ln0/similarity.pkl?dl=1"
+SIMILARITY_URL = "https://www.dropbox.com/scl/fi/d55bf7gj87wka9mr16ln0/similarity.pkl?rlkey=alu41tgjd89xhc0n8iic15l6j&st=r5f883im&dl=1"
 LOCAL_MOVIES_PATH = 'Artifacts/movie_list.pkl'
 LOCAL_SIMILARITY_PATH = 'Artifacts/similarity.pkl'
 
