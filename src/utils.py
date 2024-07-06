@@ -45,3 +45,6 @@ class Recommendation:
             return movie_id, movie_name
         except Exception as e:
             raise CustomException(e,sys)
+        
+x = Recommendation()
+x.model_build()
