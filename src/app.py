@@ -39,7 +39,7 @@ def download_from_cloud():
                 file.write(response.content)
         
         # Download similarity.pkl
-        with requests.get(f"{SIMILARITY_URL}/similarity.pkl") as response:
+        with requests.get(f"{SIMILARITY_URL}") as response:
             response.raise_for_status()
             st.session_state.similarity = pk.loads(response.content)
             with open(LOCAL_SIMILARITY_PATH, 'wb') as file:
