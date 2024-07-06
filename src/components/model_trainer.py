@@ -8,7 +8,6 @@ import nltk
 from nltk.stem import PorterStemmer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import pickle as pk
 
 pt=PorterStemmer()
 cv=CountVectorizer(max_features=5000, stop_words='english')
@@ -33,23 +32,10 @@ class ModelBuild:
             l.append(pt.stem(i))
         return " ".join(l)
     
-    def recommend(self, movie, similarity):
-        try:
-            index = self.df[self.df['title']==movie].index[0]
-            distances = sorted(list(enumerate(similarity[index])), reverse=True, key=lambda x:x[1])
-            for i in distances[1:6]:
-                print(self.df.iloc[i[0]].title)
-
-        except Exception as e:
-            raise CustomException(e)
-    
-    def predict(self, movie):
+    def model(self):
         self.df['tag'] = self.df['tag'].apply(self.stemming)
         vector = cv.fit_transform(self.df['tag']).toarray()
         similarity = cosine_similarity(vector)
-        self.recommend(movie, similarity)
-
-obj = ModelBuild()
-obj.predict("Skyfall")
+        return self.df, similarity
 
         
