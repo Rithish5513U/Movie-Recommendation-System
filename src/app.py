@@ -32,18 +32,18 @@ def load_data():
 def download_from_cloud():
     try:
         # Download movies_list.pkl
-        with requests.get(f"{MOVIE_LIST_URL}") as response:
-            response.raise_for_status()
-            st.session_state.movies = pk.loads(response.content)
-            with open(LOCAL_MOVIES_PATH, 'wb') as file:
-                file.write(response.content)
+        with requests.get(f"{MOVIE_LIST_URL}") as response1:
+            response1.raise_for_status()
+            st.session_state.movies = pk.loads(response1.content)
+            with open(LOCAL_MOVIES_PATH, 'wb') as file1:
+                file1.write(response1.content)
         
         # Download similarity.pkl
-        with requests.get(f"{SIMILARITY_URL}") as response:
-            response.raise_for_status()
-            st.session_state.similarity = pk.loads(response.content)
-            with open(LOCAL_SIMILARITY_PATH, 'wb') as file:
-                file.write(response.content)
+        with requests.get(f"{SIMILARITY_URL}") as response2:
+            response2.raise_for_status()
+            st.session_state.similarity = pk.loads(response2.content)
+            with open(LOCAL_SIMILARITY_PATH, 'wb') as file2:
+                file2.write(response2.content)
         
         print("Downloaded data successfully from cloud storage.")
     
@@ -55,6 +55,7 @@ if 'data_loaded' not in st.session_state:
     load_data()
 
 movie_list = st.session_state.movies['title']
+st.selectbox('select', st.session_state.similarity)
 
 def get_poster(movieid, retries=3, delay=1, backoff=2):
     posters = []
