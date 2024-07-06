@@ -4,10 +4,9 @@ import sys
 import os
 import requests
 import time
-import gdown
 
 MOVIE_LIST_URL = "https://drive.google.com/uc?export=download&id=1uBgqLmgibehSLWi6vNJ7Ydm8bo-4ZLo9"
-SIMILARITY_URL = "https://drive.google.com/uc?export=download&id=1jx_6DNDDKqW3V8yZPB5MIl4f3Auscf1B"
+SIMILARITY_URL = "https://www.dropbox.com/s/d55bf7gj87wka9mr16ln0/similarity.pkl?dl=1"
 LOCAL_MOVIES_PATH = 'Artifacts/movie_list.pkl'
 LOCAL_SIMILARITY_PATH = 'Artifacts/similarity.pkl'
 
@@ -33,15 +32,18 @@ def load_data():
 def download_from_cloud():
     try:
         # Download movies_list.pkl
-        gdown.download(MOVIE_LIST_URL, LOCAL_MOVIES_PATH, quiet=False)
-        with open(LOCAL_MOVIES_PATH, 'rb') as file:
-            st.session_state.movies = pk.load(file)
-
+        with requests.get(f"{MOVIE_LIST_URL}") as response1:
+            response1.raise_for_status()
+            st.session_state.movies = pk.loads(response1.content)
+            with open(LOCAL_MOVIES_PATH, 'wb') as file1:
+                file1.write(response1.content)
         
         # Download similarity.pkl
-        gdown.download(SIMILARITY_URL, LOCAL_SIMILARITY_PATH, quiet=False)
-        with open(LOCAL_SIMILARITY_PATH, 'rb') as file:
-            st.session_state.similarity = pk.load(file)
+        with requests.get(f"{SIMILARITY_URL}") as response2:
+            response2.raise_for_status()
+            st.session_state.similarity = pk.loads(response2.content)
+            with open(LOCAL_SIMILARITY_PATH, 'wb') as file2:
+                file2.write(response2.content)
         
         print("Downloaded data successfully from cloud storage.")
     
