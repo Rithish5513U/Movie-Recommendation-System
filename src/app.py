@@ -19,6 +19,7 @@ LOCAL_SIMILARITY_PATH = 'Artifacts/similarity.pkl'
 def load_data():
     try:
         # Check if local files exist
+        st.session_state.data_loaded = True
         if not os.path.exists(LOCAL_MOVIES_PATH) or not os.path.exists(LOCAL_SIMILARITY_PATH):
             print("Local files not found. Attempting to download from cloud.")
             download_from_cloud()
@@ -28,8 +29,6 @@ def load_data():
             st.session_state.movies = pk.load(file)
         with open(LOCAL_SIMILARITY_PATH, 'rb') as file:
             st.session_state.similarity = pk.load(file)
-        
-        st.session_state.data_loaded = True
         print("Data loaded successfully from local files.")
     
     except Exception as e:
@@ -53,11 +52,8 @@ def download_from_cloud():
             vector = cv.fit_transform(st.session_state.movies['tag']).toarray()
             st.session_state.similarity = cosine_similarity(vector)
             print("Similarity downloaded")
-            with open(LOCAL_MOVIES_PATH, 'wb') as file1:
-                file1.write(response1.content)
-        
-        
         print("Downloaded data successfully from cloud storage.")
+        st.session_state.data_loaded = True
     
     except requests.exceptions.RequestException as e:
         print("Error downloading data from cloud storage.")
