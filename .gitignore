@@ -8,6 +8,7 @@ logs
 src/components/__pycache__
 src/components/.ipynb_checkpoints
 .jupyter/desktop-workspaces
-src/Artifacts
+src/movie_list.pkl
+src/similarity.pkl
 
 

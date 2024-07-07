@@ -12,9 +12,8 @@ pt = PorterStemmer()
 cv=CountVectorizer(max_features=5000, stop_words='english')
 
 MOVIE_LIST_URL = "https://drive.google.com/uc?export=download&id=1uBgqLmgibehSLWi6vNJ7Ydm8bo-4ZLo9"
-SIMILARITY_URL = "https://www.dropbox.com/scl/fi/d55bf7gj87wka9mr16ln0/similarity.pkl?rlkey=alu41tgjd89xhc0n8iic15l6j&st=r5f883im&dl=1"
-LOCAL_MOVIES_PATH = 'Artifacts/movie_list.pkl'
-LOCAL_SIMILARITY_PATH = 'Artifacts/similarity.pkl'
+LOCAL_MOVIES_PATH = 'movie_list.pkl'
+LOCAL_SIMILARITY_PATH = 'similarity.pkl'
 
 def load_data():
     try:
@@ -52,6 +51,13 @@ def download_from_cloud():
             vector = cv.fit_transform(st.session_state.movies['tag']).toarray()
             st.session_state.similarity = cosine_similarity(vector)
             print("Similarity downloaded")
+
+        with open(LOCAL_MOVIES_PATH,'wb') as f:
+            pk.dump(st.session_state.movies,f)
+
+        with open(LOCAL_SIMILARITY_PATH,'wb') as f1:
+            pk.dump(st.session_state.similarity, f1)
+
         print("Downloaded data successfully from cloud storage.")
         st.session_state.data_loaded = True
     
