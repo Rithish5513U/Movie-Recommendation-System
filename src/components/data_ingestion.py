@@ -7,8 +7,8 @@ from dataclasses import dataclass
 
 @dataclass
 class DataIngestion:
-    credits_path: str = 'E:/Krish Naik/notebooks/data/tmdb_5000_credits.csv'
-    movies_path: str = 'E:/Krish Naik/notebooks/data/tmdb_5000_movies.csv'
+    credits_path: str = '../notebooks/data/tmdb_5000_credits.csv'
+    movies_path: str = '../notebooks/data/tmdb_5000_movies.csv'
 
     def data_ingestion(self):
         logging.info('Data Ingestion started')
