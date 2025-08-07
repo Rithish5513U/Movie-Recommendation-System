@@ -1,4 +1,4 @@
-# Movie Recommendation System
+# Cine Match
 
 This project implements a movie recommendation system using Streamlit and cloud storage for data persistence. The system is content-based, using cosine similarity on movie tags to recommend similar movies.
 
@@ -14,7 +14,7 @@ This project implements a movie recommendation system using Streamlit and cloud 
 1. **Installation**
    - Clone the repository:
      ```
-     git clone https://github.com/Rithish5513U/Movie-Recommendation-System.git
+     git clone https://github.com/Rithish5513U/Cine-match.git
      cd <repository_name>
      ```
    - Install dependencies:
@@ -89,4 +89,4 @@ Feel free to submit issues or pull requests for new features, bug fixes, or enha
 
 ---
 
-Enjoy using the Movie Recommendation System! If you have any questions or feedback, feel free to reach out.
+Enjoy using the Cine Match! If you have any questions or feedback, feel free to reach out.
